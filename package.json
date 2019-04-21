@@ -1,0 +1,23 @@
+{
+  "name": "bonjwa-schedule",
+  "author": {
+    "name" : "Mark Hähnel",
+    "email" : "hello@markhaehnel.de",
+    "url" : "https://markhaehnel.de"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/markhaehnel/bonjwa-schedule.git"
+  },
+  "version": "1.0.0",
+  "main": "server.js",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.16.4",
+    "node-cache": "^4.2.0",
+    "node-fetch": "^2.3.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
+  }
+}
