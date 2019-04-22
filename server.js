@@ -1,8 +1,8 @@
 const fetch = require('node-fetch')
 const $ = require('cheerio')
 const express = require('express')
-const NodeCache = require( "node-cache" );
-const myCache = new NodeCache( { stdTTL: 120, checkperiod: 10 } );
+const NodeCache = require('node-cache')
+const myCache = new NodeCache({ stdTTL: 120, checkperiod: 10 })
 
 const app = express()
 const port = 3000
@@ -17,16 +17,16 @@ const getSchedule = async function () {
       const res = await fetch(url)
       const html = await res.text()
       const elements = $('.stream-plan > table > tbody > tr > td', html)
-      
+
       let data = []
-      
+
       elements.each((i, element) => {
         if (element.attribs['class'] && element.attribs['class'].includes('free-streaming-slot')) return
-        
+
         let content = $('p', element)
         let title = $(content[0]).text().trim()
         let caster = $(content[1]).text().trim()
-        
+
         let splitDate = element.attribs['data-date'].split('-')
 
         let theDate = new Date()
@@ -43,16 +43,16 @@ const getSchedule = async function () {
             elements: []
           })
         }
-        
+
         data.find(x => x.date === date).elements.push({
           title,
           caster,
           date,
           startHour: element.attribs['data-hour-start'],
-          endHour: element.attribs['data-hour-end'],
+          endHour: element.attribs['data-hour-end']
         })
       })
-      
+
       resolve(data)
     } catch (ex) {
       reject(ex)
@@ -61,9 +61,9 @@ const getSchedule = async function () {
 }
 
 const getCachedSchedule = async function () {
-  let value = myCache.get(KEY_SCHEDULE);
-  
-  if (value == undefined){
+  let value = myCache.get(KEY_SCHEDULE)
+
+  if (value === undefined) {
     value = await getSchedule()
     myCache.set(KEY_SCHEDULE, value, 120)
   }
