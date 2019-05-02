@@ -1,3 +1,6 @@
+const tracer = require('dd-trace')
+tracer.init()
+
 const fetch = require('node-fetch')
 const $ = require('cheerio')
 const express = require('express')
