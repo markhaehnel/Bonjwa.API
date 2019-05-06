@@ -30,29 +30,17 @@ const getSchedule = async function () {
         let title = $(content[0]).text().trim()
         let caster = $(content[1]).text().trim()
 
-        let splitDate = element.attribs['data-date'].split('-')
+        let startDate = new Date(`${element.attribs['data-date']} ${element.attribs['data-hour-start']}:00 GMT+1`)
+        let endDate = new Date(`${element.attribs['data-date']} ${element.attribs['data-hour-end']}:00 GMT+1`)
 
-        let theDate = new Date()
-        theDate.setUTCFullYear(splitDate[0], splitDate[1], splitDate[2])
-        theDate.setUTCHours(0)
-        theDate.setUTCMinutes(0)
-        theDate.setUTCSeconds(0)
-        theDate.setUTCMilliseconds(0)
+        let cancelled = (element.attribs['class'] && element.attribs['class'].includes('cancelled-streaming-slot')) ? true : false
 
-        let date = theDate.toISOString()
-        if (!data.find(x => x.date === date)) {
-          data.push({
-            date,
-            elements: []
-          })
-        }
-
-        data.find(x => x.date === date).elements.push({
+        data.push({
           title,
           caster,
-          date,
-          startHour: element.attribs['data-hour-start'],
-          endHour: element.attribs['data-hour-end']
+          startDate,
+          endDate,
+          cancelled
         })
       })
 
