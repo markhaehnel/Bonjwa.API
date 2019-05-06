@@ -33,7 +33,7 @@ const getSchedule = async function () {
         let startDate = new Date(`${element.attribs['data-date']} ${element.attribs['data-hour-start']}:00 GMT+1`)
         let endDate = new Date(`${element.attribs['data-date']} ${element.attribs['data-hour-end']}:00 GMT+1`)
 
-        let cancelled = (element.attribs['class'] && element.attribs['class'].includes('cancelled-streaming-slot')) ? true : false
+        let cancelled = (element.attribs['class'] && element.attribs['class'].includes('cancelled-streaming-slot')) || false
 
         data.push({
           title,
