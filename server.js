@@ -1,5 +1,7 @@
 const tracer = require('dd-trace')
-tracer.init()
+tracer.init({
+  hostname: process.env.DD_AGENT_HOST
+})
 
 const fetch = require('node-fetch')
 const $ = require('cheerio')
