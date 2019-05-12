@@ -1,6 +1,7 @@
 const tracer = require('dd-trace')
 tracer.init({
-  hostname: process.env.DD_AGENT_HOST
+  hostname: process.env.DD_AGENT_HOST,
+  debug: process.env.DD_TRACE_DEBUG
 })
 
 const fetch = require('node-fetch')
