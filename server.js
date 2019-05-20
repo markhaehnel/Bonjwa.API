@@ -8,6 +8,8 @@ const fetch = require('node-fetch')
 const $ = require('cheerio')
 const express = require('express')
 const NodeCache = require('node-cache')
+const moment = require('moment-timezone')
+
 const myCache = new NodeCache({ stdTTL: 120, checkperiod: 10 })
 
 const app = express()
@@ -33,16 +35,16 @@ const getSchedule = async function () {
         let title = $(content[0]).text().trim()
         let caster = $(content[1]).text().trim()
 
-        let startDate = new Date(`${element.attribs['data-date']} ${element.attribs['data-hour-start']}:00 GMT+1`)
-        let endDate = new Date(`${element.attribs['data-date']} ${element.attribs['data-hour-end']}:00 GMT+1`)
+        let startDate = moment.tz(`${element.attribs['data-date']} ${element.attribs['data-hour-start']}:00:00`, 'YYYY-MM-DD HH:mm:ss', 'Europe/Berlin')
+        let endDate = moment.tz(`${element.attribs['data-date']} ${element.attribs['data-hour-end']}:00:00`, 'YYYY-MM-DD HH:mm:ss', 'Europe/Berlin')
 
         let cancelled = (element.attribs['class'] && element.attribs['class'].includes('cancelled-streaming-slot')) || false
 
         data.push({
           title,
           caster,
-          startDate,
-          endDate,
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
           cancelled
         })
       })
