@@ -1,6 +1,6 @@
 {
   "name": "bonjwa-schedule",
-  "description": "Bonjwa schedule API",
+  "description": "Bonjwa schedule",
   "version": "1.0.0",
   "author": {
     "name": "Mark Hähnel",
@@ -12,8 +12,9 @@
     "url": "https://github.com/markhaehnel/bonjwa-schedule.git"
   },
   "license": "MIT",
-  "main": "server.js",
+  "main": "downloadSchedule.js",
   "scripts": {
+    "start": "node downloadSchedule.js",
     "lint": "standard | snazzy"
   },
   "husky": {
@@ -23,10 +24,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
-    "dd-trace": "^0.11.0",
-    "express": "^4.16.4",
     "moment-timezone": "^0.5.25",
-    "node-cache": "^4.2.0",
     "node-fetch": "^2.3.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"
