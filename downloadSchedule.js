@@ -59,6 +59,8 @@ async function getAndWriteSchedule () {
     }
     console.log('Writing schedule to file..')
     await writeFile('dist/api/schedule', JSON.stringify(schedule))
+    console.log('Copying error to dist/api..')
+    await copyFile('error', 'dist/api/error')
     console.log('Copying _headers to dist..')
     await copyFile('_headers', 'dist/_headers')
     console.log('Copying _redirects to dist..')
