@@ -63,8 +63,6 @@ async function getAndWriteSchedule () {
     await copyFile('error', 'dist/api/error')
     console.log('Copying _headers to dist..')
     await copyFile('_headers', 'dist/_headers')
-    console.log('Copying _redirects to dist..')
-    await copyFile('_redirects', 'dist/_redirects')
   } catch (e) {
     console.error(e)
   }
