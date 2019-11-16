@@ -2,7 +2,7 @@ name: Scheduled rebuild
 
 on:
   schedule:
-    - cron:  '0 * * * *'
+    - cron:  '*/5 * * * *'
     
 jobs:
   build:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Build with Gradle
+    - name: Call build hook
       env:
         BUILD_HOOK_URL: ${{ secrets.BUILD_HOOK_URL }}
       run: curl -X POST -d {} $BUILD_HOOK_URL
