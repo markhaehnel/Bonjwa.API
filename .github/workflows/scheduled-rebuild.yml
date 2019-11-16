@@ -2,7 +2,7 @@ name: Scheduled rebuild
 
 on:
   schedule:
-    - cron:  '*/5 * * * *'
+    - cron:  '0,30 * * * *'
     
 jobs:
   build:
