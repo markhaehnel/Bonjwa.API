@@ -61,6 +61,9 @@ async function getAndWriteSchedule () {
 
     console.log('Copying static/_headers to dist..')
     await copyFile('static/_headers', 'dist/_headers')
+
+    console.log('Copying static/_redirects to dist..')
+    await copyFile('static/_redirects', 'dist/_redirects')
   } catch (e) {
     console.error(e)
   }
