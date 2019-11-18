@@ -43,7 +43,6 @@ async function getAndWriteSchedule () {
     console.log('Fetching schedule..')
     const schedule = await getSchedule()
 
-    const mkdir = util.promisify(fs.mkdir)
     const writeFile = util.promisify(fs.writeFile)
     const copyFile = util.promisify(fs.copyFile)
 
