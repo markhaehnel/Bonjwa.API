@@ -47,17 +47,11 @@ async function getAndWriteSchedule () {
     const writeFile = util.promisify(fs.writeFile)
     const copyFile = util.promisify(fs.copyFile)
 
-    console.log('Checking if dist/api directory exists..')
-    if (!fs.existsSync('dist/api/')) {
-      console.log('Creating dist/api directory..')
-      await mkdir('dist/api')
-    }
-
     console.log('Writing schedule to file..')
-    await writeFile('dist/api/schedule', JSON.stringify(schedule))
+    await writeFile('dist/schedule', JSON.stringify(schedule))
 
-    console.log('Copying static/error to dist/api..')
-    await copyFile('static/error', 'dist/api/error')
+    console.log('Copying static/error to dist..')
+    await copyFile('static/error', 'dist/error')
 
     console.log('Copying static/_headers to dist..')
     await copyFile('static/_headers', 'dist/_headers')
