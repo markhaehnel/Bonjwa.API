@@ -1,22 +1,19 @@
 const config = require('./utils/config')
 const logger = require('./utils/logger')
-const bonjwa = require('./services/bonjwa')
+const swaggerUi = require('swagger-ui-express')
+const cors = require('cors')
+const { handleError } = require('./utils/errors')
 
 const express = require('express')
 const app = express()
 
-app.get('/schedule', async (_, res) => {
-  try {
-    const schedule = await bonjwa.getSchedule()
-    res.status(200).json(schedule)
-  } catch (e) {
-    res.status(500).json({ status: res.statusCode, message: e.message })
-  }
-})
+// Routes
+app.use(express.static('static'))
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(null, { swaggerOptions: { url: '/openapi.json' } }))
+app.use(require('./routes'))
 
-app.get('*', async (_, res) => {
-  res.status(404).json({ status: res.statusCode, message: 'Not found' })
-})
+// Middlewares
+app.use(cors())
+app.use((err, req, res, next) => { handleError(err, req, res) })
 
-app.listen(config.port)
-logger.info(`Listening on ${config.port}`)
+app.listen(config.port, () => { logger.info(`Listening on ${config.port}`) })
