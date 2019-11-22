@@ -5,17 +5,17 @@
   "author": {
     "name": "Mark Hähnel",
     "email": "hello@markhaehnel.de",
-    "url": "https://markhaehnel.de"
+    "url": "https://haehnel.xyz"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/markhaehnel/bonjwa-schedule-api.git"
   },
   "license": "MIT",
-  "main": "schedule.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node schedule.js",
-    "lint": "standard | snazzy"
+    "start": "node server.js",
+    "lint": "standard --verbose | snazzy"
   },
   "husky": {
     "hooks": {
@@ -24,10 +24,15 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "http-status-codes": "^1.4.0",
     "moment-timezone": "^0.5.27",
     "node-fetch": "^2.6.0",
     "request": "^2.88.0",
-    "request-promise": "^4.2.5"
+    "request-promise": "^4.2.5",
+    "swagger-ui-express": "^4.1.2",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "husky": "^3.0.9",
