@@ -3,6 +3,7 @@ const $ = require('cheerio')
 const moment = require('moment-timezone')
 const config = require('../utils/config')
 const ScheduleItem = require('../models/scheduleItem')
+const EventItem = require('../models/eventItem')
 const logger = require('../utils/logger')
 
 const url = config.scheduleUrl
@@ -36,6 +37,33 @@ async function getSchedule () {
   return data
 }
 
+async function getEvents () {
+  logger.debug('Fetching events')
+
+  const res = await fetch(url)
+  const html = await res.text()
+
+  logger.debug('Events fetched successfully')
+
+  const elements = $('.c-content-three table tr', html)
+
+  const data = []
+
+  elements.each((i, element) => {
+    const content = $('td', element)
+
+    if (typeof content[0] === 'undefined' || typeof content[1] === 'undefined') return
+
+    const title = $(content[0]).text().trim()
+    const date = $(content[1]).text().trim()
+
+    data.push(new EventItem(title, date))
+  })
+
+  return data
+}
+
 module.exports = {
-  getSchedule
+  getSchedule,
+  getEvents
 }

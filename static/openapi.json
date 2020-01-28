@@ -31,6 +31,27 @@
           }
         }
       }
+    },
+    "/events" : {
+      "get" : {
+        "summary" : "Returns upcoming events",
+        "operationId" : "events",
+        "responses" : {
+          "200" : {
+            "description" : "upcoming events",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/EventItem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components" : {
@@ -60,6 +81,20 @@
           "cancelled" : {
             "type" : "boolean",
             "example" : false
+          }
+        }
+      },
+      "EventItem" : {
+        "required" : [ "title", "date" ],
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string",
+            "example" : "Community-Treffen 2020"
+          },
+          "date" : {
+            "type" : "string",
+            "example" : "14. November"
           }
         }
       }
