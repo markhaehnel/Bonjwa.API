@@ -54,8 +54,8 @@ async function getEvents () {
 
     if (typeof content[0] === 'undefined' || typeof content[1] === 'undefined') return
 
-    const title = $(content[0]).text().trim()
-    const date = $(content[1]).text().trim()
+    const date = $(content[0]).text().trim()
+    const title = $(content[1]).text().trim()
 
     data.push(new EventItem(title, date))
   })
