@@ -23,9 +23,9 @@
     }
   },
   "dependencies": {
-    "apicache": "^1.5.3",
     "cheerio": "^1.0.0-rc.3",
     "cors": "^2.8.5",
+    "cron": "^1.8.2",
     "express": "^4.17.1",
     "http-status-codes": "^1.4.0",
     "moment-timezone": "^0.5.27",

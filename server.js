@@ -3,9 +3,23 @@ const logger = require('./utils/logger')
 const swaggerUi = require('swagger-ui-express')
 const cors = require('cors')
 const { handleError } = require('./utils/errors')
+const CronJob = require('cron').CronJob
+const appStorage = require('./stores/appStorage')
+const { getScheduleAndEvents } = require('./services/bonjwa')
 
 const express = require('express')
 const app = express()
+
+const job = new CronJob({
+  cronTime: '0,30 * * * *',
+  onTick: async () => {
+    const { schedule, events } = await getScheduleAndEvents()
+    appStorage.data.schedule = schedule
+    appStorage.data.events = events
+  },
+  runOnInit: true
+})
+job.start()
 
 app.use(cors())
 

@@ -8,14 +8,24 @@ const logger = require('../utils/logger')
 
 const url = config.scheduleUrl
 
-async function getSchedule () {
-  logger.debug('Fetching schedule')
+async function getScheduleAndEvents () {
+  logger.debug('Fetching schedule and events')
 
   const res = await fetch(url)
   const html = await res.text()
 
-  logger.debug('Schedule fetched successfully')
+  logger.debug('Schedule and events successully fetched.')
 
+  const schedule = extractSchedule(html)
+  const events = extractEvents(html)
+
+  return {
+    schedule,
+    events
+  }
+}
+
+function extractSchedule (html) {
   const elements = $('.stream-plan > table > tbody > tr > td', html)
 
   const data = []
@@ -37,14 +47,7 @@ async function getSchedule () {
   return data
 }
 
-async function getEvents () {
-  logger.debug('Fetching events')
-
-  const res = await fetch(url)
-  const html = await res.text()
-
-  logger.debug('Events fetched successfully')
-
+function extractEvents (html) {
   const elements = $('.c-content-three table tr', html)
 
   const data = []
@@ -64,6 +67,5 @@ async function getEvents () {
 }
 
 module.exports = {
-  getSchedule,
-  getEvents
+  getScheduleAndEvents
 }
