@@ -7,7 +7,6 @@ const EventItem = require('../models/eventItem')
 const logger = require('../utils/logger')
 
 const url = config.scheduleUrl
-const DATE_FORMAT = 'YYYY-M-D HH:mm:ss'
 
 async function getScheduleAndEvents () {
   logger.debug('Fetching schedule and events')
@@ -26,7 +25,6 @@ async function getScheduleAndEvents () {
   }
 }
 
-
 function extractSchedule (html) {
   const elements = $('.stream-plan > table > tbody > tr > td', html)
 
@@ -39,14 +37,8 @@ function extractSchedule (html) {
 
     const title = $(content[0]).text().trim()
     const caster = $(content[1]).text().trim()
-
-    const initialDate = element.attribs['data-date']
-
-    const dateYear = initialDate.substr(0, 4).split('').reverse().join('')
-    const dateMonthDay = initialDate.substr(4, initialDate.length)
-
-    const startDate = moment.tz(`${dateYear}${dateMonthDay} ${element.attribs['data-hour-start']}:00:00`, DATE_FORMAT, 'Europe/Berlin')
-    const endDate = moment.tz(`${dateYear}${dateMonthDay} ${element.attribs['data-hour-end']}:00:00`, DATE_FORMAT, 'Europe/Berlin')
+    const startDate = moment.tz(`${element.attribs['data-date']} ${element.attribs['data-hour-start']}:00:00`, 'YYYY-MM-DD HH:mm:ss', 'Europe/Berlin')
+    const endDate = moment.tz(`${element.attribs['data-date']} ${element.attribs['data-hour-end']}:00:00`, 'YYYY-MM-DD HH:mm:ss', 'Europe/Berlin')
     const cancelled = (element.attribs.class && element.attribs.class.includes('cancelled-streaming-slot')) || false
 
     data.push(new ScheduleItem(title, caster, startDate, endDate, cancelled))
