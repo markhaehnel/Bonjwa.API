@@ -383,12 +383,6 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
-<<<<<<< HEAD
-.vscode/
-
-.now
-=======
 # JetBrains Rider
 .idea/
 *.sln.iml
->>>>>>> netcore
