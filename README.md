@@ -6,4 +6,4 @@ _Used by the [Bonjwa Android](https://github.com/markhaehnel/Bonjwa.Android) and
 
 ## Documentation
 
-[OpenAPI definition and Swagger docs](https://api.bonjwa.ezhub.de/)
+[OpenAPI definition and Swagger docs](https://api.bonjwa.ezhub.de/api-docs)
