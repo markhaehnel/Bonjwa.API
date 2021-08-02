@@ -43,6 +43,9 @@ namespace Bonjwa.API.Tasks
             _dataStore.SetSchedule(scheduleItems);
             _logger.LogDebug("Added {EventItemCount} events to {DataStoreType}", eventItems.Count, _dataStore.GetType().Name);
             _logger.LogDebug("Added {ScheduleItemCount} shows to {DataStoreType}", scheduleItems.Count, _dataStore.GetType().Name);
+
+            GC.Collect(2, GCCollectionMode.Forced, true);
+            GC.WaitForPendingFinalizers();
         }
 
         public Task StopAsync(CancellationToken stoppingToken)
