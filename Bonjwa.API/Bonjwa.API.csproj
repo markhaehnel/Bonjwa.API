@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <ServerGarbageCollection>false</ServerGarbageCollection>
-  </PropertyGroup>
+     <ServerGarbageCollection>false</ServerGarbageCollection>
+ </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="0.16.0" />

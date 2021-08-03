@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Bonjwa.API.Config;
-using Bonjwa.API.Models;
 using Bonjwa.API.Services;
 using Bonjwa.API.Storage;
 using Microsoft.Extensions.Hosting;

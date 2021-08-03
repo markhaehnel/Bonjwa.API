@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AngleSharp;
@@ -22,24 +21,25 @@ namespace Bonjwa.API.Services
         {
             var document = await fetchDocument();
 
-            var eventItems = this.extractEvents(document);
-            var scheduleItems = this.extractSchedule(document);
+            var config = Configuration.Default;
+            var context = BrowsingContext.New(config);
+            var angleDoc = await context.OpenAsync(req => req.Content(document));
+
+            var eventItems = this.extractEvents(angleDoc);
+            var scheduleItems = this.extractSchedule(angleDoc);
 
             return (eventItems, scheduleItems);
         }
 
-        private Task<AngleSharp.Dom.IDocument> fetchDocument()
+        async private Task<string> fetchDocument()
         {
-            var config = Configuration.Default;
-            var context = BrowsingContext.New(config);
-
             var result = string.Empty;
             using (var webClient = new System.Net.WebClient())
             {
-                result = webClient.DownloadString("https://bonjwa.de/programm");
+                result = await webClient.DownloadStringTaskAsync(new Uri("https://bonjwa.de/programm"));
             }
 
-            return context.OpenAsync(req => req.Content(result));
+            return result;
         }
 
         private List<EventItem> extractEvents(AngleSharp.Dom.IDocument document)
@@ -85,7 +85,7 @@ namespace Bonjwa.API.Services
                 var date = element.Attributes.GetNamedItem("data-date")?.Value;
                 var hourStart = element.Attributes.GetNamedItem("data-hour-start")?.Value;
                 var hourEnd = element.Attributes.GetNamedItem("data-hour-end")?.Value;
-                var cancelled = element.Attributes.GetNamedItem("cancelled-streaming-slot") != null ? true : false;
+                var cancelled = element.ClassList.Contains("cancelled-streaming-slot");
 
                 var dateParts = date.Split('-');
                 var year = dateParts[0];

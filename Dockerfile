@@ -11,14 +11,14 @@ USER appuser
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-focal AS build
 WORKDIR /src
-COPY ["Bonjwa.API.csproj", "./"]
+COPY ["Bonjwa.API/Bonjwa.API.csproj", "./"]
 RUN dotnet restore "Bonjwa.API.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "Bonjwa.API.csproj" -c Release -o /app/build
+RUN dotnet build "Bonjwa.API/Bonjwa.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Bonjwa.API.csproj" -c Release -o /app/publish
+RUN dotnet publish "Bonjwa.API/Bonjwa.API.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app

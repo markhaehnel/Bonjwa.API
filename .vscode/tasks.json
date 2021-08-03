@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Bonjwa.API.csproj",
+                "${workspaceFolder}/Bonjwa.API/Bonjwa.API.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Bonjwa.API.csproj",
+                "${workspaceFolder}/Bonjwa.API/Bonjwa.API.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Bonjwa.API.csproj",
+                "${workspaceFolder}/Bonjwa.API/Bonjwa.API.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -52,7 +52,7 @@
                 "pull": true
             },
             "netCore": {
-                "appProject": "${workspaceFolder}/Bonjwa.API.csproj"
+                "appProject": "${workspaceFolder}/Bonjwa.API/Bonjwa.API.csproj"
             }
         },
         {
@@ -68,7 +68,7 @@
                 "pull": true
             },
             "netCore": {
-                "appProject": "${workspaceFolder}/Bonjwa.API.csproj"
+                "appProject": "${workspaceFolder}/Bonjwa.API/Bonjwa.API.csproj"
             }
         },
         {
@@ -79,7 +79,7 @@
             ],
             "dockerRun": {},
             "netCore": {
-                "appProject": "${workspaceFolder}/Bonjwa.API.csproj",
+                "appProject": "${workspaceFolder}/Bonjwa.API/Bonjwa.API.csproj",
                 "enableDebugging": true
             }
         },
@@ -91,7 +91,7 @@
             ],
             "dockerRun": {},
             "netCore": {
-                "appProject": "${workspaceFolder}/Bonjwa.API.csproj"
+                "appProject": "${workspaceFolder}/Bonjwa.API/Bonjwa.API.csproj"
             }
         }
     ]
