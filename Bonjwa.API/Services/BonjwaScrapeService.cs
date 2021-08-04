@@ -10,16 +10,20 @@ namespace Bonjwa.API.Services
 {
     public class BonjwaScrapeService
     {
-        private readonly ILogger<BonjwaScrapeService> _logger;
+        private const string SOURCE_URL = "https://www.bonjwa.de/programm";
 
-        public BonjwaScrapeService(ILogger<BonjwaScrapeService> logger)
+        private readonly ILogger<BonjwaScrapeService> _logger;
+        private readonly IFetchService _fetcher;
+
+        public BonjwaScrapeService(ILogger<BonjwaScrapeService> logger, IFetchService fetcher)
         {
             _logger = logger;
+            _fetcher = fetcher;
         }
 
         public async Task<(List<EventItem>, List<ScheduleItem>)> ScrapeEventsAndScheduleAsync()
         {
-            var document = await fetchDocument();
+            var document = await _fetcher.FetchAsync(SOURCE_URL);
 
             var config = Configuration.Default;
             var context = BrowsingContext.New(config);
@@ -29,17 +33,6 @@ namespace Bonjwa.API.Services
             var scheduleItems = this.extractSchedule(angleDoc);
 
             return (eventItems, scheduleItems);
-        }
-
-        async private Task<string> fetchDocument()
-        {
-            var result = string.Empty;
-            using (var webClient = new System.Net.WebClient())
-            {
-                result = await webClient.DownloadStringTaskAsync(new Uri("https://bonjwa.de/programm"));
-            }
-
-            return result;
         }
 
         private List<EventItem> extractEvents(AngleSharp.Dom.IDocument document)

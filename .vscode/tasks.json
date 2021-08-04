@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Bonjwa.API/Bonjwa.API.csproj",
+                "${workspaceFolder}/Bonjwa.API.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

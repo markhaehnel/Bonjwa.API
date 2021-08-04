@@ -34,6 +34,7 @@ namespace Bonjwa.API
             });
 
             services.AddSingleton<IDataStore, InMemoryDataStore>();
+            services.AddSingleton<IFetchService, HttpFetchService>();
             services.AddSingleton(typeof(BonjwaScrapeService));
             services.AddHostedService<BonjwaScrapeTask>();
         }

@@ -8,7 +8,7 @@ using Bonjwa.API.Models;
 using System.Linq;
 using System;
 
-namespace Bonjwa.API.Test.Controllers
+namespace Bonjwa.API.Tests.Controllers
 {
     public class ScheduleControllerTests
     {

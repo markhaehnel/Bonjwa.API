@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bonjwa.API", "Bonjwa.API\Bonjwa.API.csproj", "{555435F0-A406-4644-B4E9-D4642C5F95FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bonjwa.API.Test", "Bonjwa.API.Test\Bonjwa.API.Test.csproj", "{1B400EED-FE03-436D-B0DE-84573B9DF611}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bonjwa.API.Tests", "Bonjwa.API.Tests\Bonjwa.API.Tests.csproj", "{1B400EED-FE03-436D-B0DE-84573B9DF611}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

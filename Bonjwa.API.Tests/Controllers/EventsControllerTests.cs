@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using Bonjwa.API.Models;
 using System.Linq;
 
-namespace Bonjwa.API.Test.Controllers
+namespace Bonjwa.API.Tests.Controllers
 {
     public class EventsControllerTests
     {

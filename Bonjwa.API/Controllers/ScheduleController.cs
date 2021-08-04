@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
 
+using System.Linq;
+
 namespace Bonjwa.API.Controllers
 {
     [ApiController]
