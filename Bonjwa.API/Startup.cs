@@ -50,11 +50,11 @@ namespace Bonjwa.API
             // 404 catch all
             app.Use(async (ctx, next) =>
             {
-                await next();
+                await next().ConfigureAwait(false);
                 if (ctx.Response.StatusCode == 404 && !ctx.Response.HasStarted)
                 {
                     ctx.Request.Path = "/404";
-                    await next();
+                    await next().ConfigureAwait(false);
                 }
             });
 

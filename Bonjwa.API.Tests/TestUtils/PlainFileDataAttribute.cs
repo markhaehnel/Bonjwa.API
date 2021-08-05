@@ -6,18 +6,18 @@ using Xunit.Sdk;
 
 namespace Bonjwa.API.Tests.TestUtils
 {
-    public class PlainFileDataAttribute : DataAttribute
+    public sealed class PlainFileDataAttribute : DataAttribute
     {
-        private readonly string[] _filePaths;
+        public string[] FilePaths { get; private set; }
 
         public PlainFileDataAttribute(params string[] filePaths)
         {
-            _filePaths = filePaths;
+            FilePaths = filePaths;
         }
 
-        public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest)
+        public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            foreach (var filePath in _filePaths)
+            foreach (var filePath in FilePaths)
             {
                 yield return new object[] { File.ReadAllText(filePath) };
             }

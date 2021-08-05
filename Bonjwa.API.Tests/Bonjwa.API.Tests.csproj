@@ -3,6 +3,9 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <IsPackable>false</IsPackable>
+
+        <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+        <NoWarn>CA1014</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

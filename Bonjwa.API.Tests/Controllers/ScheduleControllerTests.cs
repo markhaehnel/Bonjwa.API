@@ -41,7 +41,7 @@ namespace Bonjwa.API.Tests.Controllers
 
             var service = new ScheduleController(mockLogger.Object, mockStore.Object);
 
-            Assert.True(service.Get().Count() == 0);
+            Assert.Empty(service.Get());
         }
     }
 }

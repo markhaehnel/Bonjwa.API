@@ -8,15 +8,24 @@ namespace Bonjwa.API.Services
     {
         private readonly HttpClient _client = new HttpClient();
 
-        public Task<string> FetchAsync(string url)
+        public Task<string> FetchAsync(Uri uri)
         {
-            var uri = new Uri(url);
             return _client.GetStringAsync(uri);
         }
 
         public void Dispose()
         {
-            _client.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _client?.Dispose();
+
+            }
         }
     }
 }

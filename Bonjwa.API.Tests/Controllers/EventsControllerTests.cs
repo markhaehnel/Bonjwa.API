@@ -40,7 +40,7 @@ namespace Bonjwa.API.Tests.Controllers
 
             var service = new EventsController(mockLogger.Object, mockStore.Object);
 
-            Assert.True(service.Get().Count() == 0);
+            Assert.Empty(service.Get());
         }
     }
 }

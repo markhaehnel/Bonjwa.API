@@ -1,9 +1,10 @@
+using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
 namespace Bonjwa.API
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {

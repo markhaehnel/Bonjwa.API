@@ -13,7 +13,7 @@ namespace Bonjwa.API.Tasks
     {
         private readonly ILogger<BonjwaScrapeTask> _logger;
         private readonly IDataStore _dataStore;
-        public BonjwaScrapeService _bonjwa { get; }
+        private readonly BonjwaScrapeService _bonjwa;
 
         private Timer _timer;
 
@@ -24,7 +24,7 @@ namespace Bonjwa.API.Tasks
             _bonjwa = bonjwa;
         }
 
-        public Task StartAsync(CancellationToken stoppingToken)
+        public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("{ClassName} running.", this.GetType().Name);
             _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromMinutes(AppConfig.ScrapeInterval));
@@ -46,7 +46,7 @@ namespace Bonjwa.API.Tasks
             GC.WaitForPendingFinalizers();
         }
 
-        public Task StopAsync(CancellationToken stoppingToken)
+        public Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("{ClassName} is stopping.", this.GetType().Name);
             _timer?.Change(Timeout.Infinite, 0);
@@ -55,7 +55,17 @@ namespace Bonjwa.API.Tasks
 
         public void Dispose()
         {
-            _timer?.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _timer?.Dispose();
+
+            }
         }
     }
 }

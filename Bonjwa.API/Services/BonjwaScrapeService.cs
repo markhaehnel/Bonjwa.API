@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AngleSharp;
@@ -10,7 +11,7 @@ namespace Bonjwa.API.Services
 {
     public class BonjwaScrapeService
     {
-        private const string SOURCE_URL = "https://www.bonjwa.de/programm";
+        private static readonly Uri SOURCE_URL = new Uri("https://www.bonjwa.de/programm");
 
         private readonly ILogger<BonjwaScrapeService> _logger;
         private readonly IFetchService _fetcher;
@@ -23,19 +24,19 @@ namespace Bonjwa.API.Services
 
         public async Task<(List<EventItem>, List<ScheduleItem>)> ScrapeEventsAndScheduleAsync()
         {
-            var document = await _fetcher.FetchAsync(SOURCE_URL);
+            var document = await _fetcher.FetchAsync(BonjwaScrapeService.SOURCE_URL).ConfigureAwait(false);
 
             var config = Configuration.Default;
             var context = BrowsingContext.New(config);
-            var angleDoc = await context.OpenAsync(req => req.Content(document));
+            var angleDoc = await context.OpenAsync(req => req.Content(document)).ConfigureAwait(false);
 
-            var eventItems = this.extractEvents(angleDoc);
-            var scheduleItems = this.extractSchedule(angleDoc);
+            var eventItems = BonjwaScrapeService.extractEvents(angleDoc);
+            var scheduleItems = BonjwaScrapeService.extractSchedule(angleDoc);
 
             return (eventItems, scheduleItems);
         }
 
-        private List<EventItem> extractEvents(AngleSharp.Dom.IDocument document)
+        private static List<EventItem> extractEvents(AngleSharp.Dom.IDocument document)
         {
             var elements = document.QuerySelectorAll(".c-content-three table tr");
 
@@ -46,8 +47,8 @@ namespace Bonjwa.API.Services
                 var content = element.QuerySelectorAll("td");
                 if (
                     content.Length != 2
-                    || content[0].TextContent.Trim() == string.Empty
-                    || content[1].TextContent.Trim() == string.Empty
+                    || String.IsNullOrWhiteSpace(content[0].TextContent)
+                    || String.IsNullOrWhiteSpace(content[1].TextContent)
                 ) continue;
 
                 var title = content[0].TextContent.Trim();
@@ -59,7 +60,7 @@ namespace Bonjwa.API.Services
             return eventItems;
         }
 
-        private List<ScheduleItem> extractSchedule(AngleSharp.Dom.IDocument document)
+        private static List<ScheduleItem> extractSchedule(AngleSharp.Dom.IDocument document)
         {
             var elements = document.QuerySelectorAll(".stream-plan>table>tbody>tr>td");
 
@@ -106,8 +107,8 @@ namespace Bonjwa.API.Services
                 var tz = TimeZoneInfo.FindSystemTimeZoneById("Europe/Berlin");
                 var offsetHours = tz.GetUtcOffset(DateTime.UtcNow).Hours;
 
-                var startDate = DateTime.Parse($"{year}-{month}-{day}T{hourStart}:00:00.000+{offsetHours}:00");
-                var endDate = DateTime.Parse($"{year}-{month}-{day}T{hourEnd}:00:00.000+{offsetHours}:00");
+                var startDate = DateTime.Parse($"{year}-{month}-{day}T{hourStart}:00:00.000+{offsetHours}:00", CultureInfo.InvariantCulture);
+                var endDate = DateTime.Parse($"{year}-{month}-{day}T{hourEnd}:00:00.000+{offsetHours}:00", CultureInfo.InvariantCulture);
 
                 startDate = startOverlap ? startDate.AddDays(1) : startDate;
                 endDate = endOverlap ? endDate.AddDays(1) : endDate;
