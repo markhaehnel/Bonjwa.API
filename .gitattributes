@@ -1,0 +1,2 @@
+# Ignore test sample data for language statistics
+Bonjwa.API.Tests/TestData/* linguist-vendored
