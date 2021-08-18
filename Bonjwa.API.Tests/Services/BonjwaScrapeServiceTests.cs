@@ -1,12 +1,12 @@
 using System;
-using Xunit;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
 using Bonjwa.API.Services;
 using Bonjwa.API.Tests.TestUtils;
-using Moq;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Globalization;
+using Moq;
+using Xunit;
 
 namespace Bonjwa.API.Tests.Services
 {
@@ -25,9 +25,9 @@ namespace Bonjwa.API.Tests.Services
             var (eventItems, scheduleItems) = await service.ScrapeEventsAndScheduleAsync().ConfigureAwait(false);
 
             Assert.Equal(3, eventItems.Count);
-            Assert.Equal("Bonjwa Achievement Show powered by yello #Werbung", eventItems.First().Name);
+            Assert.Equal("Bonjwa Achievement Show powered by yello #Werbung", eventItems.First().Title);
             Assert.Equal("1. August", eventItems.First().Date);
-            Assert.Equal("Chätzen", eventItems.Last().Name);
+            Assert.Equal("Chätzen", eventItems.Last().Title);
             Assert.Equal("Mitte August", eventItems.Last().Date);
 
             Assert.Equal(24, scheduleItems.Count);
