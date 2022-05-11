@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Bonjwa.API.Config;
@@ -9,13 +10,22 @@ using Microsoft.Extensions.Logging;
 
 namespace Bonjwa.API.Tasks
 {
-    public class BonjwaScrapeTask : IHostedService, IDisposable
+    public partial class BonjwaScrapeTask : IHostedService, IDisposable
     {
         private readonly ILogger<BonjwaScrapeTask> _logger;
         private readonly IDataStore _dataStore;
         private readonly BonjwaScrapeService _bonjwa;
 
         private Timer _timer;
+
+        [LoggerMessage(0, LogLevel.Information, "{ClassName} running")]
+        partial void LogClassRunning(string className);
+
+        [LoggerMessage(1, LogLevel.Information, "{ClassName} is stopping")]
+        partial void LogClassStopping(string className);
+
+        [LoggerMessage(2, LogLevel.Debug, "Added {count} {itemType} to {storeName}")]
+        partial void LogItemsAdded(int count, string itemType, string storeName);
 
         public BonjwaScrapeTask(ILogger<BonjwaScrapeTask> logger, IDataStore dataStore, BonjwaScrapeService bonjwa)
         {
@@ -26,7 +36,7 @@ namespace Bonjwa.API.Tasks
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("{ClassName} running.", this.GetType().Name);
+            LogClassRunning(this.GetType().Name);
             _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromMinutes(AppConfig.ScrapeInterval));
             return Task.CompletedTask;
         }
@@ -35,12 +45,14 @@ namespace Bonjwa.API.Tasks
         {
             var task = _bonjwa.ScrapeEventsAndScheduleAsync();
             task.Wait();
+
             var (eventItems, scheduleItems) = task.Result;
 
             _dataStore.SetEvents(eventItems);
+            LogItemsAdded(eventItems.Count, eventItems.GetType().GetGenericArguments().Single().Name, _dataStore.GetType().Name);
+
             _dataStore.SetSchedule(scheduleItems);
-            _logger.LogDebug("Added {EventItemCount} events to {DataStoreType}", eventItems.Count, _dataStore.GetType().Name);
-            _logger.LogDebug("Added {ScheduleItemCount} shows to {DataStoreType}", scheduleItems.Count, _dataStore.GetType().Name);
+            LogItemsAdded(scheduleItems.Count, scheduleItems.GetType().GetGenericArguments().Single().Name, _dataStore.GetType().Name);
 
             GC.Collect(2, GCCollectionMode.Forced, true);
             GC.WaitForPendingFinalizers();
@@ -48,7 +60,7 @@ namespace Bonjwa.API.Tasks
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("{ClassName} is stopping.", this.GetType().Name);
+            LogClassStopping(this.GetType().Name);
             _timer?.Change(Timeout.Infinite, 0);
             return Task.CompletedTask;
         }
@@ -64,7 +76,6 @@ namespace Bonjwa.API.Tasks
             if (disposing)
             {
                 _timer?.Dispose();
-
             }
         }
     }
